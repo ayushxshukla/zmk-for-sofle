@@ -11,7 +11,7 @@
 //   Layer 0: BASE    — Colemak-DH (matrix/ortho variant) + number row
 //   Layer 1: NAV     — vim arrows, clipboard, nav (hold SPACE)
 //   Layer 2: NUM     — numpad left hand (hold BSPC)
-//   Layer 3: MEDIA   — media, BT, ext-power (hold ESC)
+//   Layer 3: MEDIA   — media, BT, RGB, ext-power, bootloader (hold ESC)
 //   Layer 4: SYM     — symbols left hand (hold ENTER)
 //   Layer 5: FUN     — function keys left hand (hold DEL)
 //   Layer 6: MOUSE   — mouse movement, scroll, buttons (hold TAB)
@@ -22,6 +22,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
+#include <dt-bindings/zmk/rgb.h>
 
 #define BASE  0
 #define NAV   1
@@ -165,6 +166,15 @@
         };
     };
 
+    behaviors {
+        // Encoder RGB brightness control (rgb_ug cannot be a sensor binding directly)
+        rgb_encoder: rgb_encoder {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&rgb_ug RGB_BRI>, <&rgb_ug RGB_BRD>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -207,13 +217,13 @@
             display-name = "MEDIA";
             bindings = <
 &trans         &trans      &trans      &trans        &trans        &trans                                       &trans         &trans         &trans         &trans       &trans       &trans
-&none          &none       &none       &none         &none         &none                                        &none           &none           &none           &none           &none      &none
+&bootloader    &none       &none       &none         &none         &none                                        &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_SAI &none      &bootloader
 &none          &kp LGUI    &kp LALT    &kp LCTRL     &kp LSHFT     &none                                        &ext_power EP_TOG &kp C_PREV   &kp C_VOL_DN   &kp C_VOL_UP &kp C_NEXT   &none
 &none          &none       &none       &none         &none         &none          &trans         &trans         &out OUT_TOG   &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR
                                        &none         &none         &none          &none          &none          &kp C_STOP     &kp C_PP       &kp C_MUTE     &trans       &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &rgb_encoder>;
         };
 
         sym_layer {
