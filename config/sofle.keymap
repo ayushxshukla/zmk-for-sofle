@@ -9,6 +9,7 @@
 //   Adapted from the Corne config for Sofle (6x4 + thumbs + encoders, 60 keys)
 //
 //   Layer 0: BASE    — Colemak-DH (matrix/ortho variant) + number row
+//                      encoder knob x3 = bootloader for that half (no reset button needed)
 //   Layer 1: NAV     — vim arrows, clipboard, nav (hold SPACE)
 //   Layer 2: NUM     — numpad left hand (hold BSPC)
 //   Layer 3: MEDIA   — media, BT, RGB, ext-power, bootloader (hold ESC)
@@ -167,6 +168,22 @@
     };
 
     behaviors {
+        // Software reset buttons: click the encoder knob 3x fast to put THAT half
+        // into the bootloader. 1x/2x keep the knob's normal function. Tap-dance
+        // forwards the originating half, so each knob resets its own side.
+        td_boot_l: td_boot_l {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <300>;
+            bindings = <&kp C_MUTE>, <&kp C_MUTE>, <&bootloader>;
+        };
+        td_boot_r: td_boot_r {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <300>;
+            bindings = <&kp C_PP>, <&kp C_PP>, <&bootloader>;
+        };
+
         // Encoder RGB brightness control (rgb_ug cannot be a sensor binding directly)
         rgb_encoder: rgb_encoder {
             compatible = "zmk,behavior-sensor-rotate";
@@ -184,7 +201,7 @@
 &kp GRAVE      &kp N1      &kp N2      &kp N3        &kp N4        &kp N5                                       &kp N6      &kp N7        &kp N8        &kp N9       &kp N0       &kp EQUAL
 &kp TAB        &kp Q       &kp W       &kp F         &kp P         &kp B                                        &kp J       &kp L         &kp U         &kp Y        &kp SEMI     &kp BSPC
 &mt LCTRL ESC  &kp A       &kp R       &kp S         &kp T         &kp G                                        &kp M       &kp N         &kp E         &kp I        &kp O        &kp SQT
-&kp LSHFT      &kp Z       &kp X       &kp C         &kp D         &kp V          &kp C_MUTE     &kp DEL         &kp K       &kp H         &kp COMMA     &kp DOT      &kp FSLH     &kp RSHFT
+&kp LSHFT      &kp Z       &kp X       &kp C         &kp D         &kp V          &td_boot_l     &td_boot_r      &kp K       &kp H         &kp COMMA     &kp DOT      &kp FSLH     &kp RSHFT
                                        &kp LGUI      &kp LALT      &lt MEDIA ESC  &lt NAV SPACE  &lt MOUSE TAB   &lt SYM RET &lt NUM BSPC  &lt FUN DEL   &kp RALT     &kp RGUI
             >;
 
