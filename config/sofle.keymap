@@ -9,11 +9,12 @@
 //   Adapted from the Corne config for Sofle (6x4 + thumbs + encoders, 60 keys)
 //
 //   Layer 0: BASE   — Colemak-DH + number row. Left thumbs: Ctrl Opt Cmd Space/NAV Globe
+//                      Right thumbs: Enter Backspace Delete/SYM MOUSE(hold) SYS(hold)
 //                      encoder knob x3 = bootloader for that half (no reset button needed)
 //   Layer 1: NAV    — arrows on M N E I, Home/End/PgUp/PgDn, undo/cut/copy/paste (hold SPACE)
-//   Layer 2: SYM    — symbols left hand, ( ) [ ] \ _ - right hand (hold ENTER)
-//   Layer 3: MOUSE  — cursor on A R S T, scroll on Z X C D, clicks on left thumbs (hold DELETE)
-//   Layer 4: SYS    — F-keys left hand; lights / Bluetooth / LED power / install keys right hand (hold BACKSPACE)
+//   Layer 2: SYM    — symbols left hand, ( ) [ ] \ _ - right hand (hold DELETE, R3)
+//   Layer 3: MOUSE  — cursor on A R S T, scroll on Z X C D, clicks on left thumbs (hold R4)
+//   Layer 4: SYS    — F-keys left hand; lights / Bluetooth / LED power / install keys right hand (hold R5)
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
@@ -198,7 +199,7 @@
 &kp TAB  &kp Q  &kp W  &kp F  &kp P  &kp B     &kp J  &kp L  &kp U  &kp Y  &kp SEMI  &kp BSPC
 &mt LCTRL ESC  &kp A  &kp R  &kp S  &kp T  &kp G     &kp M  &kp N  &kp E  &kp I  &kp O  &kp SQT
 &kp LSHFT  &kp Z  &kp X  &kp C  &kp D  &kp V  &td_boot_l  &td_boot_r  &kp K  &kp H  &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
-                                       &kp LCTRL  &kp LALT  &kp LGUI  &lt NAV SPACE  &kp GLOBE  &lt SYM RET  &lt SYS BSPC  &lt MOUSE DEL  &kp RALT  &kp RGUI
+                                       &kp LCTRL  &kp LALT  &kp LGUI  &lt NAV SPACE  &kp GLOBE  &kp RET  &kp BSPC  &lt SYM DEL  &mo MOUSE  &mo SYS
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
